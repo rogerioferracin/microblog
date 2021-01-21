@@ -1,11 +1,15 @@
-<table class="highlight">
-    <tr valign="top">
-        <td width="100"><img src="{{ post.author.avatar(36) }}"></td>
-        <td align="left">
+<table class="table table-hover">
+    <tr>
+        <td width="70px">
             <a href="{{ url_for('user', username=post.author.username) }}">
-                <b>{{ post.author.username }} says:</b><br>{{ post.body }}
+                <img src="{{ post.author.avatar(70) }}" />
             </a>
-            <p><span class="chip">{{ post.timestamp }}</span></p>
+        </td>
+        <td>
+            <a href="{{ url_for('user', username=post.author.username) }}">
+                {{ post.author.username }}
+            </a>
+            said: {{ moment(post.timestamp).fromNow() }}<br>
+            {{ post.body }}
         </td>
     </tr>
-</table>
