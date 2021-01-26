@@ -15,17 +15,17 @@ from app.auth.email import send_password_reset_email
 @bp.route('/reset_password_request',  methods=['GET', 'POST'])
 def reset_password_request():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = ResetPasswordRequestForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             send_password_reset_email(user)
             flash('Check your email for the instructions to reset your password')
-            return redirect(url_for('index'))
+            return redirect(url_for('main.index'))
         else:
             flash('Email not found!!! Try again!')
-            return redirect(url_for('reset_password_request'))
+            return redirect(url_for('auth.reset_password_request'))
     return render_template('auth/reset_password_request.html', title='Reset Password', form=form)
 
 ##
@@ -52,7 +52,7 @@ def reset_password(token):
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index')) 
+        return redirect(url_for('main.index')) 
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -62,7 +62,7 @@ def login():
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
-            next_page = url_for('index')
+            next_page = url_for('main.index')
         return redirect(next_page)
     return render_template('auth/login.html', title='Sign In', form=form)
 
@@ -72,7 +72,7 @@ def login():
 @bp.route('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('main.index'))
 
 ##
 ## Route Register
@@ -80,7 +80,7 @@ def logout():
 @bp.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.username.data)
