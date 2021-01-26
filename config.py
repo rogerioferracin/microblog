@@ -16,6 +16,6 @@ class Config(object):
     ADMINS = ['artefinal@graficanewtimes.com.br']
 
     ## Pagination
-    POSTS_PER_PAGE = 3
+    POSTS_PER_PAGE = 10
     ## i18n
     LANGUAGES = ['en', 'es']
